@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   injectButton.addEventListener('click', function() {
     var jsCode = jsCodeInput.value;
-    try {
-      // Execute the JavaScript code
-      eval(jsCode);
-      alert('JavaScript code injected successfully!');
-    } catch (error) {
-      // Handle errors
-      alert('Error injecting JavaScript code: ' + error.message);
-    }
+    
+    // Open a new tab
+    chrome.tabs.create({ url: 'about:blank' }, function(tab) {
+      // Inject JavaScript code into the new tab
+      chrome.tabs.executeScript(tab.id, { code: jsCode }, function() {
+        alert('JavaScript code injected successfully in a new tab!');
+      });
+    });
   });
 });
